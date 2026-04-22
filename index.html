@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PES Evolution LabYT — Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #00ff87;
+    --yellow: #ffe600;
+    --dark: #080c10;
+    --dark2: #0d1117;
+    --dark3: #111820;
+    --card: #131b24;
+    --border: rgba(0,255,135,0.15);
+    --text: #c8d6e5;
+    --white: #f0f6fc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* GRID BACKGROUND */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,255,135,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,255,135,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* GLOW ORBS */
+  body::after {
+    content: '';
+    position: fixed;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,255,135,0.06) 0%, transparent 70%);
+    top: -200px; right: -200px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px 40px;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,255,135,0.08) 0%, transparent 65%);
+    bottom: -100px; left: 50%;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0,255,135,0.08);
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 6px 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--green);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--green);
+    border-radius: 50%;
+    animation: pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(56px, 12vw, 110px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--white);
+    animation: fadeDown 0.6s 0.1s ease both;
+    position: relative;
+  }
+
+  .hero-title span {
+    color: var(--green);
+    position: relative;
+  }
+
+  .hero-title span::after {
+    content: '';
+    position: absolute;
+    bottom: 4px; left: 0; right: 0;
+    height: 3px;
+    background: var(--green);
+    box-shadow: 0 0 12px var(--green);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    animation: fadeDown 0.6s 0.2s ease both;
+  }
+
+  .hero-desc {
+    font-size: 15px;
+    color: rgba(200,214,229,0.55);
+    max-width: 480px;
+    line-height: 1.6;
+    margin-top: 12px;
+    margin-bottom: 36px;
+    animation: fadeDown 0.6s 0.3s ease both;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+    animation: fadeDown 0.6s 0.4s ease both;
+  }
+
+  .stat {
+    text-align: center;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    color: var(--green);
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(0,255,135,0.4);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(200,214,229,0.45);
+    margin-top: 4px;
+  }
+
+  .stat-divider {
+    width: 1px;
+    background: var(--border);
+    align-self: stretch;
+  }
+
+  /* ===== CTA BUTTONS ===== */
+  .cta-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeDown 0.6s 0.5s ease both;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--green);
+    color: var(--dark);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    padding: 14px 32px;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    box-shadow: 0 0 30px rgba(0,255,135,0.25);
+  }
+
+  .btn-primary:hover {
+    background: #00e87c;
+    box-shadow: 0 0 50px rgba(0,255,135,0.5);
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    color: var(--white);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px;
+    letter-spacing: 1.5px;
+    padding: 14px 32px;
+    border-radius: 2px;
+    border: 1px solid rgba(240,246,252,0.2);
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--green);
+    color: var(--green);
+    transform: translateY(-2px);
+  }
+
+  /* ===== SCROLL INDICATOR ===== */
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.4;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Share Tech Mono', monospace;
+    animation: fadeDown 1s 1s ease both;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--green), transparent);
+    animation: scrollLine 1.5s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { transform: scaleY(0); transform-origin: top; }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ===== SECTION ===== */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 80px 20px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(38px, 6vw, 60px);
+    color: var(--white);
+    line-height: 1;
+    margin-bottom: 48px;
+  }
+
+  /* ===== SERVICE CARDS ===== */
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 32px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: transparent;
+    transition: background 0.3s ease;
+  }
+
+  .service-card:hover {
+    border-color: rgba(0,255,135,0.3);
+    transform: translateY(-4px);
+  }
+
+  .service-card:hover::before {
+    background: var(--green);
+    box-shadow: 0 0 16px var(--green);
+  }
+
+  .service-card.featured {
+    border-color: rgba(0,255,135,0.25);
+    background: linear-gradient(135deg, #131b24 0%, #0d1f18 100%);
+  }
+
+  .service-card.featured::before {
+    background: var(--green);
+  }
+
+  .card-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-bottom: 16px;
+    opacity: 0.7;
+  }
+
+  .card-icon {
+    font-size: 32px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--white);
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: rgba(200,214,229,0.6);
+    line-height: 1.65;
+    margin-bottom: 24px;
+  }
+
+  .card-features {
+    list-style: none;
+    margin-bottom: 28px;
+  }
+
+  .card-features li {
+    font-size: 13px;
+    color: var(--text);
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(0,255,135,0.06);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-features li::before {
+    content: '›';
+    color: var(--green);
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+  }
+
+  .price {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .price-label {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(200,214,229,0.4);
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  .price-amount {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 32px;
+    color: var(--yellow);
+    line-height: 1;
+    text-shadow: 0 0 20px rgba(255,230,0,0.3);
+  }
+
+  .price-currency {
+    font-size: 14px;
+    color: rgba(255,230,0,0.6);
+  }
+
+  .duration {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: rgba(200,214,229,0.4);
+    text-align: right;
+  }
+
+  /* ===== PATCH LIST ===== */
+  .patch-section {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    padding: 32px;
+    margin-top: 2px;
+  }
+
+  .patch-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--green);
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+
+  .patch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 10px;
+  }
+
+  .patch-item {
+    background: rgba(0,255,135,0.04);
+    border: 1px solid var(--border);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+  }
+
+  .patch-item:hover {
+    background: rgba(0,255,135,0.08);
+    border-color: rgba(0,255,135,0.25);
+  }
+
+  .patch-dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--green);
+    flex-shrink: 0;
+  }
+
+  .patch-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  /* ===== PAYMENT SECTION ===== */
+  .payment-section {
+    border-top: 1px solid var(--border);
+    padding-top: 80px;
+  }
+
+  .payment-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2px;
+  }
+
+  .payment-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 24px;
+    transition: all 0.2s;
+  }
+
+  .payment-card:hover {
+    border-color: rgba(0,255,135,0.2);
+  }
+
+  .flag {
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .pay-country {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--white);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .pay-method {
+    font-size: 13px;
+    color: var(--green);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .pay-desc {
+    font-size: 12px;
+    color: rgba(200,214,229,0.45);
+    font-family: 'Share Tech Mono', monospace;
+  }
+
+  /* ===== HOW IT WORKS ===== */
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2px;
+    position: relative;
+  }
+
+  .step {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 28px 24px;
+    position: relative;
+  }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 64px;
+    color: rgba(0,255,135,0.08);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .step-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    color: var(--green);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .step-desc {
+    font-size: 13px;
+    color: rgba(200,214,229,0.55);
+    line-height: 1.6;
+  }
+
+  /* ===== CONTACT SECTION ===== */
+  .contact-bar {
+    background: linear-gradient(135deg, rgba(0,255,135,0.08) 0%, rgba(0,255,135,0.03) 100%);
+    border: 1px solid rgba(0,255,135,0.2);
+    padding: 48px 40px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-top: 80px;
+  }
+
+  .contact-bar::before {
+    content: 'PES';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 200px;
+    color: rgba(0,255,135,0.02);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  .contact-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(30px, 5vw, 48px);
+    color: var(--white);
+    margin-bottom: 12px;
+    position: relative;
+  }
+
+  .contact-sub {
+    color: rgba(200,214,229,0.55);
+    margin-bottom: 32px;
+    font-size: 15px;
+    position: relative;
+  }
+
+  .wa-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: #25d366;
+    color: white;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    letter-spacing: 1.5px;
+    padding: 16px 40px;
+    border-radius: 2px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    position: relative;
+    box-shadow: 0 0 40px rgba(37,211,102,0.25);
+  }
+
+  .wa-btn:hover {
+    background: #1ebe5a;
+    box-shadow: 0 0 60px rgba(37,211,102,0.45);
+    transform: translateY(-3px);
+  }
+
+  .wa-icon {
+    width: 24px; height: 24px;
+    fill: white;
+  }
+
+  /* ===== FOOTER ===== */
+  footer {
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--border);
+    padding: 28px 20px;
+    text-align: center;
+  }
+
+  .footer-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: rgba(200,214,229,0.25);
+    letter-spacing: 1.5px;
+  }
+
+  .footer-text a {
+    color: var(--green);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+  }
+
+  .footer-text a:hover { opacity: 1; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== DIVIDER ===== */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 0 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    .hero { padding: 80px 16px 60px; }
+    .contact-bar { padding: 40px 20px; }
+    .hero-stats { gap: 20px; }
+    .stat-divider { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="badge">Service Officiel</div>
+
+  <h1 class="hero-title">
+    PES Evolution<br><span>LabYT</span>
+  </h1>
+
+  <p class="hero-sub">Assistance PES à distance</p>
+  <p class="hero-desc">
+    Tu bloques avec ton patch ? Mods qui ne fonctionnent pas ?
+    Je me connecte directement sur ton PC et je règle tout.
+  </p>
+
+  <div class="hero-stats">
+    <div class="stat">
+      <div class="stat-num">24K+</div>
+      <div class="stat-label">Vues YouTube</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">349</div>
+      <div class="stat-label">Membres</div>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat">
+      <div class="stat-num">30<span style="font-size:18px">min</span></div>
+      <div class="stat-label">Délai moyen</div>
+    </div>
+  </div>
+
+  <div class="cta-group">
+    <a href="https://wa.me/TONNUM" class="btn-primary">
+      📲 Me contacter sur WhatsApp
+    </a>
+    <a href="https://youtube.com/@PESEvolutionLab" class="btn-secondary" target="_blank">
+      ▶ Voir la chaîne
+    </a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Découvrir les services</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- SERVICES -->
+<section>
+  <div class="section-label">// 01 — Services disponibles</div>
+  <h2 class="section-title">Ce que je propose</h2>
+
+  <div class="services-grid">
+
+    <div class="service-card">
+      <div class="card-tag">Service 01</div>
+      <span class="card-icon">🔧</span>
+      <h3 class="card-title">Fix DpFileList Generator</h3>
+      <p class="card-desc">
+        Tes CPK sont mal classés dans le DpFileList Generator ? Bugs à l'affichage,
+        mods qui ne chargent pas ? Je diagnostique et reconfigure tout correctement.
+      </p>
+      <ul class="card-features">
+        <li>Diagnostic complet de ta liste de CPK</li>
+        <li>Réorganisation et ordre de priorité correct</li>
+        <li>Suppression des conflits entre fichiers</li>
+        <li>Génération du DpFileList.bin final</li>
+        <li>Test en jeu avant la fin de session</li>
+      </ul>
+      <div class="card-footer">
+        <div class="price">
+          <span class="price-label">Tarif</span>
+          <span class="price-amount">2 000 <span class="price-currency">FCFA</span></span>
+        </div>
+        <div class="duration">⏱ 20–30 min<br>via AnyDesk</div>
+      </div>
+    </div>
+
+    <div class="service-card featured">
+      <div class="card-tag">⭐ Service 02 — Le Plus Demandé</div>
+      <span class="card-icon">📦</span>
+      <h3 class="card-title">Installation Complète de Patch</h3>
+      <p class="card-desc">
+        Tu as téléchargé un patch mais tu ne sais pas l'installer ?
+        Je m'occupe de tout à distance — du début à la fin.
+      </p>
+      <ul class="card-features">
+        <li>Installation complète du patch choisi</li>
+        <li>Configuration CPK Name Manager / Sider</li>
+        <li>Vérification faces, kits, gameplay</li>
+        <li>Optimisation selon ton niveau de PC</li>
+        <li>Support 24h après l'installation</li>
+      </ul>
+      <div class="card-footer">
+        <div class="price">
+          <span class="price-label">Tarif</span>
+          <span class="price-amount">5 000 <span class="price-currency">FCFA</span></span>
+        </div>
+        <div class="duration">⏱ 30–45 min<br>via AnyDesk</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PATCH LIST -->
+  <div class="patch-section">
+    <div class="patch-title">Patchs Maîtrisés ✓</div>
+    <div class="patch-grid">
+      <div class="patch-item">
+        <div class="patch-dot"></div>
+        <span class="patch-name">FC Patch PES 17</span>
+      </div>
+      <div class="patch-item">
+        <div class="patch-dot"></div>
+        <span class="patch-name">Professionals Patch</span>
+      </div>
+      <div class="patch-item">
+        <div class="patch-dot"></div>
+        <span class="patch-name">T99 Patch</span>
+      </div>
+      <div class="patch-item">
+        <div class="patch-dot"></div>
+        <span class="patch-name">RZ Patch</span>
+      </div>
+      <div class="patch-item" style="border-color: rgba(0,255,135,0.12); background: rgba(0,255,135,0.03);">
+        <div class="patch-dot" style="background: var(--yellow); box-shadow: 0 0 8px var(--yellow);"></div>
+        <span class="patch-name" style="color: rgba(200,214,229,0.5);">Autre → nous contacter</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="section-label">// 02 — Processus</div>
+  <h2 class="section-title">Comment ça marche</h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Tu me contactes</div>
+      <p class="step-desc">Envoie-moi un message WhatsApp en décrivant ton problème. Je réponds rapidement.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Tu paies</div>
+      <p class="step-desc">Règlement sécurisé avant la session. Moov, Flooz, Wave, Orange Money selon ton pays.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">Tu installes AnyDesk</div>
+      <p class="step-desc">Un logiciel gratuit. Tu me donnes le code à 9 chiffres. Je te guide si besoin.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div class="step-title">Je règle tout ✅</div>
+      <p class="step-desc">Je me connecte sur ton PC et fais tout moi-même. Tu regardes le résultat en direct.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PAYMENT -->
+<section class="payment-section">
+  <div class="section-label">// 03 — Paiement</div>
+  <h2 class="section-title">Ton pays, ton réseau</h2>
+
+  <div class="payment-grid">
+    <div class="payment-card">
+      <span class="flag">🇸🇳</span>
+      <div class="pay-country">Sénégal</div>
+      <div class="pay-method">Wave / Orange Money</div>
+      <div class="pay-desc">via change.sn → Flooz</div>
+    </div>
+    <div class="payment-card">
+      <span class="flag">🇨🇮</span>
+      <div class="pay-country">Côte d'Ivoire</div>
+      <div class="pay-method">Moov / Orange / Wave</div>
+      <div class="pay-desc">Moov direct ou EasyTransfert</div>
+    </div>
+    <div class="payment-card">
+      <span class="flag">🇨🇲</span>
+      <div class="pay-country">Cameroun</div>
+      <div class="pay-method">MTN / Orange Money</div>
+      <div class="pay-desc">via EasyTransfert → Flooz</div>
+    </div>
+    <div class="payment-card">
+      <span class="flag">🇧🇯</span>
+      <div class="pay-country">Bénin</div>
+      <div class="pay-method">Moov Money</div>
+      <div class="pay-desc">Moov direct → Flooz Togo</div>
+    </div>
+    <div class="payment-card">
+      <span class="flag">🇲🇬</span>
+      <div class="pay-country">Madagascar</div>
+      <div class="pay-method">PayPal</div>
+      <div class="pay-desc">Contacte-moi pour les détails</div>
+    </div>
+    <div class="payment-card">
+      <span class="flag">🇫🇷</span>
+      <div class="pay-country">France / Diaspora</div>
+      <div class="pay-method">PayPal / Carte</div>
+      <div class="pay-desc">Contacte-moi pour les détails</div>
+    </div>
+    <div class="payment-card">
+      <span class="flag">🇹🇬</span>
+      <div class="pay-country">Togo</div>
+      <div class="pay-method">Flooz / T-Money</div>
+      <div class="pay-desc">Transfert direct instantané</div>
+    </div>
+    <div class="payment-card">
+      <span class="flag">🌍</span>
+      <div class="pay-country">Autres pays</div>
+      <div class="pay-method">Contacte-moi</div>
+      <div class="pay-desc">On trouve une solution ensemble</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section style="padding-bottom: 0;">
+  <div class="contact-bar">
+    <h2 class="contact-title">Prêt à jouer correctement ?</h2>
+    <p class="contact-sub">Envoie-moi un message — je réponds rapidement</p>
+    <a href="https://wa.me/TONNUM?text=Bonjour%2C%20je%20viens%20du%20site%20et%20j%27ai%20besoin%20d%27aide%20avec%20mon%20DpFileList%20Generator%20PES%20!" class="wa-btn">
+      <svg class="wa-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+      </svg>
+      Contacter sur WhatsApp
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-text">
+    © 2025 PES Evolution LabYT — Togo &nbsp;|&nbsp;
+    <a href="https://youtube.com/@PESEvolutionLab" target="_blank">YouTube</a>
+    &nbsp;|&nbsp; Tous droits réservés
+  </p>
+</footer>
+
+</body>
+</html>
